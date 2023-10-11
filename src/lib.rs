@@ -1007,6 +1007,8 @@ pub trait HasContext {
     unsafe fn memory_barrier(&self, barriers: u32);
 
     unsafe fn memory_barrier_by_region(&self, barriers: u32);
+
+    unsafe fn clip_control(&self, origin: u32, depth: u32);
 }
 
 pub const ACTIVE_ATOMIC_COUNTER_BUFFERS: u32 = 0x92D9;

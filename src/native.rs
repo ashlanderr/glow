@@ -2374,6 +2374,11 @@ impl HasContext for Context {
         let gl = &self.raw;
         gl.MemoryBarrierByRegion(barriers);
     }
+
+    unsafe fn clip_control(&self, origin: u32, depth: u32) {
+        let gl = &self.raw;
+        gl.ClipControl(origin, depth);
+    }
 }
 
 extern "system" fn raw_debug_message_callback<F>(
