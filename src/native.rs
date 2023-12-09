@@ -1527,6 +1527,23 @@ impl HasContext for Context {
         }
     }
 
+    unsafe fn uniform_matrix_4_f64_slice(
+        &self,
+        location: Option<&Self::UniformLocation>,
+        transpose: bool,
+        v: &[f64],
+    ) {
+        let gl = &self.raw;
+        if let Some(loc) = location {
+            gl.UniformMatrix4dv(
+                *loc as i32,
+                v.len() as i32 / 16,
+                transpose as u8,
+                v.as_ptr(),
+            );
+        }
+    }
+
     unsafe fn unmap_buffer(&self, target: u32) {
         let gl = &self.raw;
         gl.UnmapBuffer(target);

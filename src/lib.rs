@@ -694,6 +694,13 @@ pub trait HasContext {
         v: &[f32],
     );
 
+    unsafe fn uniform_matrix_4_f64_slice(
+        &self,
+        location: Option<&Self::UniformLocation>,
+        transpose: bool,
+        v: &[f64],
+    );
+
     unsafe fn unmap_buffer(&self, target: u32);
 
     unsafe fn cull_face(&self, value: u32);
