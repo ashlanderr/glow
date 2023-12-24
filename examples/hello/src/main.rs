@@ -64,7 +64,7 @@ fn main() {
         };
 
         let vertex_array = gl
-            .create_vertex_array()
+            .gen_vertex_array()
             .expect("Cannot create vertex array");
         gl.bind_vertex_array(Some(vertex_array));
 

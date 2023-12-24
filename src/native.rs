@@ -384,10 +384,17 @@ impl HasContext for Context {
         );
     }
 
-    unsafe fn create_vertex_array(&self) -> Result<Self::VertexArray, String> {
+    unsafe fn gen_vertex_array(&self) -> Result<Self::VertexArray, String> {
         let gl = &self.raw;
         let mut vertex_array = 0;
         gl.GenVertexArrays(1, &mut vertex_array);
+        Ok(vertex_array)
+    }
+
+    unsafe fn create_vertex_array(&self) -> Result<Self::VertexArray, String> {
+        let gl = &self.raw;
+        let mut vertex_array = 0;
+        gl.CreateVertexArrays(1, &mut vertex_array);
         Ok(vertex_array)
     }
 
@@ -399,6 +406,52 @@ impl HasContext for Context {
     unsafe fn bind_vertex_array(&self, vertex_array: Option<Self::VertexArray>) {
         let gl = &self.raw;
         gl.BindVertexArray(vertex_array.unwrap_or(0));
+    }
+
+    unsafe fn vertex_array_vertex_buffer(
+        &self,
+        vertex_array: VertexArray,
+        binding_index: u32,
+        vertex_buffer: Buffer,
+        offset: i32,
+        stride: i32,
+    ) {
+        let gl = &self.raw;
+        gl.VertexArrayVertexBuffer(vertex_array, binding_index, vertex_buffer, offset as isize, stride);
+    }
+
+    unsafe fn vertex_array_element_buffer(&self, vertex_array: VertexArray, element_buffer: Buffer) {
+        let gl = &self.raw;
+        gl.VertexArrayElementBuffer(vertex_array, element_buffer);
+    }
+
+    unsafe fn enable_vertex_array_attrib(&self, vertex_array: VertexArray, index: u32) {
+        let gl = &self.raw;
+        gl.EnableVertexArrayAttrib(vertex_array, index);
+    }
+
+    unsafe fn vertex_array_attrib_format_f32(
+        &self,
+        vertex_array: VertexArray,
+        attrib_index: u32,
+        size: i32,
+        data_type: u32,
+        normalized: bool,
+        offset: u32,
+    ) {
+        let gl = &self.raw;
+        gl.VertexArrayAttribFormat(vertex_array, attrib_index, size, data_type, normalized as u8, offset);
+
+    }
+
+    unsafe fn vertex_array_binding_divisor(&self, vertex_array: VertexArray, binding_index: u32, divisor: u32) {
+        let gl = &self.raw;
+        gl.VertexArrayBindingDivisor(vertex_array, binding_index, divisor);
+    }
+
+    unsafe fn vertex_array_attrib_binding(&self, vertex_array: VertexArray, attrib_index: u32, binding_index: u32) {
+        let gl = &self.raw;
+        gl.VertexArrayAttribBinding(vertex_array, attrib_index, binding_index);
     }
 
     unsafe fn clear_color(&self, red: f32, green: f32, blue: f32, alpha: f32) {
@@ -489,6 +542,16 @@ impl HasContext for Context {
         let gl = &self.raw;
         gl.BufferSubData(
             target,
+            offset as isize,
+            src_data.len() as isize,
+            src_data.as_ptr() as *const std::ffi::c_void,
+        );
+    }
+
+    unsafe fn named_buffer_sub_data_u8_slice(&self, buffer: Buffer, offset: i32, src_data: &[u8]) {
+        let gl = &self.raw;
+        gl.NamedBufferSubData(
+            buffer,
             offset as isize,
             src_data.len() as isize,
             src_data.as_ptr() as *const std::ffi::c_void,

@@ -899,7 +899,7 @@ impl HasContext for Context {
         }
     }
 
-    unsafe fn create_vertex_array(&self) -> Result<Self::VertexArray, String> {
+    unsafe fn gen_vertex_array(&self) -> Result<Self::VertexArray, String> {
         let raw_vertex_array = match self.raw {
             RawRenderingContext::WebGl1(ref _gl) => {
                 match &self.extensions.oes_vertex_array_object {

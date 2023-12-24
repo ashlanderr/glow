@@ -194,11 +194,40 @@ pub trait HasContext {
         filter: u32,
     );
 
+    unsafe fn gen_vertex_array(&self) -> Result<Self::VertexArray, String>;
+
     unsafe fn create_vertex_array(&self) -> Result<Self::VertexArray, String>;
 
     unsafe fn delete_vertex_array(&self, vertex_array: Self::VertexArray);
 
     unsafe fn bind_vertex_array(&self, vertex_array: Option<Self::VertexArray>);
+
+    unsafe fn vertex_array_vertex_buffer(
+        &self,
+        vertex_array: VertexArray,
+        binding_index: u32,
+        vertex_buffer: Buffer,
+        offset: i32,
+        stride: i32,
+    );
+
+    unsafe fn vertex_array_element_buffer(&self, vertex_array: VertexArray, element_buffer: Buffer);
+
+    unsafe fn enable_vertex_array_attrib(&self, vertex_array: VertexArray, index: u32);
+
+    unsafe fn vertex_array_attrib_format_f32(
+        &self,
+        vertex_array: VertexArray,
+        attrib_index: u32,
+        size: i32,
+        data_type: u32,
+        normalized: bool,
+        offset: u32,
+    );
+
+    unsafe fn vertex_array_binding_divisor(&self, vertex_array: VertexArray, binding_index: u32, divisor: u32);
+
+    unsafe fn vertex_array_attrib_binding(&self, vertex_array: VertexArray, attrib_index: u32, binding_index: u32);
 
     unsafe fn clear_color(&self, red: f32, green: f32, blue: f32, alpha: f32);
 
@@ -227,6 +256,8 @@ pub trait HasContext {
     unsafe fn named_buffer_data_u8_slice(&self, buffer: Buffer, data: &[u8], usage: u32);
 
     unsafe fn buffer_sub_data_u8_slice(&self, target: u32, offset: i32, src_data: &[u8]);
+
+    unsafe fn named_buffer_sub_data_u8_slice(&self, buffer: Buffer, offset: i32, src_data: &[u8]);
 
     unsafe fn get_buffer_sub_data(&self, target: u32, offset: i32, dst_data: &mut [u8]);
 
