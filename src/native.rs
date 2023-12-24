@@ -308,10 +308,17 @@ impl HasContext for Context {
         gl.UseProgram(program.unwrap_or(0));
     }
 
-    unsafe fn create_buffer(&self) -> Result<Self::Buffer, String> {
+    unsafe fn gen_buffer(&self) -> Result<Self::Buffer, String> {
         let gl = &self.raw;
         let mut buffer = 0;
         gl.GenBuffers(1, &mut buffer);
+        Ok(buffer)
+    }
+
+    unsafe fn create_buffer(&self) -> Result<Self::Buffer, String> {
+        let gl = &self.raw;
+        let mut buffer = 0;
+        gl.CreateBuffers(1, &mut buffer);
         Ok(buffer)
     }
 

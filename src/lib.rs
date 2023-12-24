@@ -157,6 +157,8 @@ pub trait HasContext {
 
     unsafe fn use_program(&self, program: Option<Self::Program>);
 
+    unsafe fn gen_buffer(&self) -> Result<Self::Buffer, String>;
+
     unsafe fn create_buffer(&self) -> Result<Self::Buffer, String>;
 
     unsafe fn is_buffer(&self, buffer: Self::Buffer) -> bool;

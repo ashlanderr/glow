@@ -789,7 +789,7 @@ impl HasContext for Context {
         }
     }
 
-    unsafe fn create_buffer(&self) -> Result<Self::Buffer, String> {
+    unsafe fn gen_buffer(&self) -> Result<Self::Buffer, String> {
         let raw_buffer = match self.raw {
             RawRenderingContext::WebGl1(ref gl) => gl.create_buffer(),
             RawRenderingContext::WebGl2(ref gl) => gl.create_buffer(),
